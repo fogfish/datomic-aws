@@ -1,0 +1,97 @@
+##
+## @doc
+##   Cloud Formation template to spawns AWS resources, which are required for appliance management.
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  Setup AWS account to provision Datomic solution(s).
+
+
+Parameters:
+  
+  # Key Owner
+  Admin:
+    Type: String
+    Default: root
+    Description: |
+      AWS Principal with admin right for key management.
+
+  User:
+    Type: String
+    Default: root
+    Description: |
+      AWS Principal with user right for key management. 
+
+
+Resources:
+
+  LicenseEncryptionKey:
+    Type: "AWS::KMS::Key"
+    Properties:
+      Description: |
+        The KMS key to encrypt/decrypt Datomic lincese
+      KeyPolicy: 
+        Version: "2012-10-17"
+        Id: "lincese-key-policy"
+        Statement:
+          - Sid: "Allow administration of the key"
+            Effect: "Allow"
+            Principal: 
+              AWS: 
+                Fn::Join:
+                  - ""
+                  - 
+                    - "arn:aws:iam::"
+                    - !Ref "AWS::AccountId"
+                    - ":"
+                    - !Ref Admin
+            Action: 
+              - "kms:Create*"
+              - "kms:Describe*"
+              - "kms:Enable*"
+              - "kms:List*"
+              - "kms:Put*"
+              - "kms:Update*"
+              - "kms:Revoke*"
+              - "kms:Disable*"
+              - "kms:Get*"
+              - "kms:Delete*"
+              - "kms:ScheduleKeyDeletion"
+              - "kms:CancelKeyDeletion"
+              - "kms:Encrypt"
+              - "kms:Decrypt"
+              - "kms:ReEncrypt*"
+              - "kms:GenerateDataKey*"
+              - "kms:DescribeKey"
+            Resource: "*"
+
+          - Sid: "Allow use of the key to encrypt passwords"
+            Effect: "Allow"
+            Principal: 
+              AWS: 
+                Fn::Join:
+                  - ""
+                  - 
+                    - "arn:aws:iam::"
+                    - !Ref "AWS::AccountId"
+                    - ":"
+                    - !Ref User
+            Action: 
+              - "kms:Decrypt"
+              - "kms:DescribeKey"
+            Resource: "*"
+          
+  LicenseEncryptionKeyAlias:
+      Type: "AWS::KMS::Alias"
+      Properties:
+        AliasName: "alias/kms-datomic-license-encryption-key"
+        TargetKeyId:
+          Ref: "LicenseEncryptionKey"
+
+Outputs:
+  LicenseEncryptionKeyArn:
+    Description: |
+      The unique identity of encryption key
+    Value: { "Fn::GetAtt": [ LicenseEncryptionKey, Arn ] }
+    Export:
+      Name: "kms-datomic-license-encryption-key"
+
