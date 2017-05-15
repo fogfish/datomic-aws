@@ -1,0 +1,12 @@
+##
+## Unique identity of your team.
+Team: test
+
+##
+## AWS Principal with root-level access on license encryption key 
+## http://docs.aws.amazon.com/AmazonS3/latest/dev/s3-bucket-user-policy-specifying-principal-intro.html
+KMSRoot: root
+
+##
+## AWS Principal with read-only access on license encryption key 
+KMSUser: root

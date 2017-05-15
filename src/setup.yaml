@@ -8,14 +8,18 @@ Description: |
 
 Parameters:
   
-  # Key Owner
-  Admin:
+  Team:
+    Type: String
+    Description: |
+      Unique identity of team
+
+  KMSRoot:
     Type: String
     Default: root
     Description: |
       AWS Principal with admin right for key management.
 
-  User:
+  KMSUser:
     Type: String
     Default: root
     Description: |
@@ -43,7 +47,7 @@ Resources:
                     - "arn:aws:iam::"
                     - !Ref "AWS::AccountId"
                     - ":"
-                    - !Ref Admin
+                    - !Ref KMSRoot
             Action: 
               - "kms:Create*"
               - "kms:Describe*"
@@ -74,18 +78,35 @@ Resources:
                     - "arn:aws:iam::"
                     - !Ref "AWS::AccountId"
                     - ":"
-                    - !Ref User
+                    - !Ref KMSUser
             Action: 
+              - "kms:Encrypt"
+              - "kms:ReEncrypt*"
               - "kms:Decrypt"
               - "kms:DescribeKey"
             Resource: "*"
           
   LicenseEncryptionKeyAlias:
-      Type: "AWS::KMS::Alias"
-      Properties:
-        AliasName: "alias/kms-datomic-license-encryption-key"
-        TargetKeyId:
-          Ref: "LicenseEncryptionKey"
+    Type: "AWS::KMS::Alias"
+    Properties:
+      AliasName: "alias/kms-datomic-license-encryption-key"
+      TargetKeyId:
+        Ref: "LicenseEncryptionKey"
+
+
+  ArtifactsS3:
+    Type: "AWS::S3::Bucket"
+    DeletionPolicy: Delete
+    Properties:
+      AccessControl: "Private"
+      BucketName:
+        Fn::Join:
+          - ""
+          -
+            - !Ref Team
+            - "-datomic-artifacts-"
+            - !Ref "AWS::AccountId"
+    
 
 Outputs:
   LicenseEncryptionKeyArn:
@@ -94,4 +115,9 @@ Outputs:
     Value: { "Fn::GetAtt": [ LicenseEncryptionKey, Arn ] }
     Export:
       Name: "kms-datomic-license-encryption-key"
+
+  ArtifactsS3Arn:
+    Description: |
+      The unique identity of artifacts repository
+    Value: !Ref ArtifactsS3
 
