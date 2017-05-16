@@ -37,3 +37,23 @@ Upload artifacts to S3 bucket. As the result, it provisions required files to S3
 ```
 make upload USER=your@e.mail PASS=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
+
+
+## Deploy Datomic
+
+### Provision resources
+
+The deployment procedure of Datomic requires various [AWS resources](http://docs.datomic.com/storage.html): 
+* dynamo db tables
+* s3 buckets
+* iam roles
+* cloud watch metrics
+
+The appliance manages these resources using cloud formation template. Use the following command to initiate deployment procedure. Use `SYSENV` option to supply an solution specific configuration file.
+
+```
+make resources
+``` 
+
+
+

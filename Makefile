@@ -15,4 +15,7 @@ upload: license.txt
 	@sh src/upload-artifacts.sh -u ${USER} -p ${PASS} -v ${VSN}
 	@sh src/upload-license.sh -f $^
 
-.PHONY: setup artifact
+resources: src/resources.yaml
+	@sh src/resources.sh -f $^ -c ${SYSENV}
+
+.PHONY: setup upload resources

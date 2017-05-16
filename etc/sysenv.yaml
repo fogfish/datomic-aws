@@ -1,10 +1,18 @@
 ##
+## Unique identity of your organization / team
+Team: cloud
+
+##
 ## Datomic version
 Version: 0.9.5561
 
 ##
-## Unique identity of your team.
-Team: test
+## Deployment Environment
+Env: dev
+
+##
+## Identity of deployment solution.   
+Solution: aws
 
 ##
 ## AWS Principal with root-level access on license encryption key 

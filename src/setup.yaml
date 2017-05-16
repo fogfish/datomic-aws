@@ -120,4 +120,6 @@ Outputs:
     Description: |
       The unique identity of artifacts repository
     Value: !Ref ArtifactsS3
+    Export:
+      Name: "s3-datomic-artifacts"
 
