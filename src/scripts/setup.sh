@@ -1,10 +1,12 @@
 #!/bin/bash
 ##
-## provision aws resources required for datomic deployment
+## setup aws account for datomic appliance
 set -e
 set -u
+ROOT=$(dirname $0)
+STACK=datomic-artifacts
 
-while getopts "i:f:c:" opt ;
+while getopts "f:c:" opt ;
 do
    case $opt in
       f)
@@ -16,18 +18,14 @@ do
    esac
 done
 
-ENV=$(cat ${CONF} | sed -n "s/Env:[ ]*\(.*\)/\1/p")
-SOLUTION=$(cat ${CONF} | sed -n "s/Solution:[ ]*\(.*\)/\1/p")
-STACK="${ENV}-datomic-resources-${SOLUTION}"
-
 echo "==> cloud formation deployment of ${FILE}"
-CONFIG=$(sh src/sysenv.sh -f ${FILE} -c ${CONF})
+CONFIG=$(sh ${ROOT}/sysenv.sh -f ${FILE} -c ${CONF})
 
 aws cloudformation create-stack \
    --stack-name ${STACK} \
    --template-body file://${FILE} \
-   --capabilities CAPABILITY_NAMED_IAM \
    --parameters ${CONFIG}
+   
 
 aws cloudformation wait stack-create-complete \
    --stack-name ${STACK}

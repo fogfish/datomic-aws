@@ -8,14 +8,14 @@ USER ?=
 PASS ?=
 VSN  ?= $(shell cat ${SYSENV} | sed -n "s/Version:[ ]*\(.*\)/\1/p")
 
-setup: src/setup.yaml
-	@sh src/setup.sh -f $^ -c ${SYSENV}
+setup: src/aws/setup.yaml
+	@sh src/scripts/setup.sh -f $^ -c ${SYSENV}
 
 upload: license.txt
-	@sh src/upload-artifacts.sh -u ${USER} -p ${PASS} -v ${VSN}
-	@sh src/upload-license.sh -f $^
+	@sh src/scripts/upload-artifacts.sh -u ${USER} -p ${PASS} -v ${VSN}
+	@sh src/scripts/upload-license.sh -f $^
 
-resources: src/resources.yaml
-	@sh src/resources.sh -f $^ -c ${SYSENV}
+resources: src/aws/resources.yaml
+	@sh src/scripts/resources.sh -f $^ -c ${SYSENV}
 
 .PHONY: setup upload resources
