@@ -18,4 +18,9 @@ upload: license.txt
 resources: src/aws/resources.yaml
 	@sh src/scripts/resources.sh -f $^ -c ${SYSENV}
 
+docker: src/datomic/Dockerfile
+	@U=`sh src/scripts/s3url.sh` ;\
+	docker build --build-arg="PACKAGE_URL=$$U" -t datomic:${VSN} -f $^ src/datomic/
+
+
 .PHONY: setup upload resources
