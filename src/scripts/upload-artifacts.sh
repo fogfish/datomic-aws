@@ -23,9 +23,9 @@ done
 
 PACKAGE=datomic-pro-${VSN}.zip
 
-echo "==> downloading package ${PACKAGE}"
 if [[ ! -f ${PACKAGE} ]] ;
 then
+   echo "==> downloading package ${PACKAGE}"
    curl -u ${USER}:${PASS} \
       -SL -o ${PACKAGE} \
       https://my.datomic.com/repo/com/datomic/datomic-pro/${VSN}/${PACKAGE}
@@ -40,4 +40,7 @@ S3=$(aws cloudformation describe-stack-resources \
 echo "==> uploading ${PACKAGE} to s3://${S3}"
 aws s3 cp ${PACKAGE} s3://${S3}/datomic-pro/${PACKAGE}
 aws s3 cp ${PACKAGE} s3://${S3}/datomic-pro/datomic-pro-latest.zip
+
+echo "==> uploading config to s3://${S3}"
+aws s3 cp etc/*.properties s3://${S3}/etc/
 
