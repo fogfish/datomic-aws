@@ -1,12 +1,10 @@
 #!/bin/bash
 ##
 ## Upload artifacts to S3 bucket
-
 set -e
 set -u
 
 STACK=datomic-artifacts
-VSN=0.9.5561
 
 while getopts "u:p:v:" opt ;
 do

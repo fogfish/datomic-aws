@@ -25,3 +25,15 @@ Execute the following command. As the result, it creates the Cloud Formation Sta
 ```
 make setup
 ```
+
+
+## Upload artifacts
+
+The owner of Datomic account shall upload Datomic artifacts and encrypted license into S3 bucket. You need to
+1. Obtains artifact(s) download credentials from [your account](https://my.datomic.com/account)
+1. Save your Datomic Pro license to `license.txt` file.    
+
+Upload artifacts to S3 bucket. As the result, it provisions required files to S3 bucket in your AWS account.  
+```
+make upload USER=your@e.mail PASS=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
