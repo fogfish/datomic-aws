@@ -1,9 +1,16 @@
 FROM centos
 
+##
+## Install basic utilities, java and python
 RUN set -e \
    && yum -y -q update \
-   && yum -y -q install java
+   && yum -y -q install java \
+   && yum -y -q install python python-setuptools \
+   && easy_install -U pip \
+   && pip install --no-cache-dir -U awscli
 
+##
+## Install DynamoDB mock
 RUN set -e \
    && mkdir /usr/local/aws-ddb \
    && cd /usr/local/aws-ddb \
@@ -16,12 +23,6 @@ RUN set -e \
 
 EXPOSE 8000
 
-ENTRYPOINT [ \
-   "java" \
-  ,"-Djava.library.path=/usr/local/aws-ddb/DynamoDBLocal_lib" \
-  ,"-jar", "/usr/local/aws-ddb/DynamoDBLocal.jar" \
-  ,"-sharedDb" \
-  ,"-dbPath", "/var/lib/aws-ddb/" \
-]
-
+COPY run.sh /usr/local/aws-ddb/
+ENTRYPOINT ["bash", "/usr/local/aws-ddb/run.sh"]
 
