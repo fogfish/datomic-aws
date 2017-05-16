@@ -1,0 +1,11 @@
+version: '2'
+services:
+  aws-ddb:
+    build: ./ddb/
+    ports:
+     - "8000:8000"
+
+  datomic:
+    image: datomic:0.9.5561
+    ports:
+     - "4334:4334"

@@ -22,5 +22,7 @@ docker: src/datomic/Dockerfile
 	@U=`sh src/scripts/s3url.sh` ;\
 	docker build --build-arg="PACKAGE_URL=$$U" -t datomic:${VSN} -f $^ src/datomic/
 
+run: src/local.yaml
+	docker-compose -f $^ up
 
 .PHONY: setup upload resources
