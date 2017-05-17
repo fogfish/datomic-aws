@@ -6,7 +6,7 @@ services:
      - "8000:8000"
 
   datomic:
-    image: datomic:0.9.5561
+    image: datomic
     ports:
       - "4334:4334"
     volumes_from:

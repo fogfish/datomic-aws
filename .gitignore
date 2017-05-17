@@ -2,4 +2,5 @@
 *.zip
 datomic.license
 license.*
+scm-source.json
 

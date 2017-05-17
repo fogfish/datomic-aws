@@ -25,5 +25,7 @@ RUN set -e \
 
 EXPOSE 4334
 
+COPY scm-source.json /scm-source.json
 COPY run.sh /usr/local/datomic/
 ENTRYPOINT ["bash", "/usr/local/datomic/run.sh"]
+

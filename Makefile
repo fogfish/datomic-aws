@@ -27,11 +27,22 @@ resources: src/aws/resources.yaml
 license: 
 	@sh src/scripts/config.sh -c ${SYSENV}
 
-docker: src/datomic/Dockerfile
+docker: src/datomic/Dockerfile src/datomic/scm-source.json
 	@U=`sh src/scripts/s3url.sh -c ${SYSENV}` ;\
-	docker build --build-arg="PACKAGE_URL=$$U" -t ${URL} -f $^ src/datomic/
+	docker build --build-arg="PACKAGE_URL=$$U" -t ${URL} -f $< src/datomic/
+	docker tag ${URL} datomic:latest
 
+src/datomic/scm-source.json: force
+	@sh -c '\
+		REV=$$(git rev-parse HEAD); \
+		URL=$$(git config --get remote.upstream.url || git config --get remote.origin.url); \
+		STATUS=$$(git status --porcelain |awk 1 ORS="\\\\\\\\n"); \
+		if [ -n "$$STATUS" ]; then REV="$$REV (locally modified)"; fi; \
+		echo "{\"url\": \"git:$$URL\", \"revision\": \"$$REV\", \"author\": \"$$USER\", \"status\": \"$$STATUS\"}"' > $@
+	
 run: src/local.yaml
 	docker-compose -f $^ up
 
-.PHONY: setup upload resources license docker run
+force:
+
+.PHONY: setup upload resources license docker run force
