@@ -6,17 +6,23 @@ java \
   -sharedDb \
   -dbPath /var/lib/aws-ddb/ &
 
-
-echo "==> config ddb for datomic"
+echo "==> config ddb"
+DDBTABLE=datomic
+SERVICE=http://localhost:8000
 export AWS_ACCESS_KEY_ID="aws-access-key-id"
 export AWS_SECRET_ACCESS_KEY="aws-secret-key"
 
-aws dynamodb create-table \
-   --table-name datomic \
+aws dynamodb describe-table \
+   --table-name ${DDBTABLE} \
+   --endpoint-url ${SERVICE} \
+   --region aws-region \
+&& echo " " \
+|| aws dynamodb create-table \
+   --table-name ${DDBTABLE} \
    --attribute-definitions AttributeName=id,AttributeType=S \
    --key-schema AttributeName=id,KeyType=HASH \
    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
-   --endpoint-url http://localhost:8000 \
+   --endpoint-url ${SERVICE} \
    --region aws-region
 
 wait
