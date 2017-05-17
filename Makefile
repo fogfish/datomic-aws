@@ -8,7 +8,7 @@ USER ?= none
 PASS ?= none
 VSN  ?= $(shell cat ${SYSENV} | sed -n "s/Version:[ ]*\([^ ]*\).*/\1/p")
 HUB  ?= $(shell cat ${SYSENV} | sed -n "s/Hub:[ ]*\([^ ]*\).*/\1/p")
-TEAM ?= $(shell cat ${SYSENV} | sed -n "s/Team:[ ]*\([^ ]\).*/\1/p")
+TEAM ?= $(shell cat ${SYSENV} | sed -n "s/Team:[ ]*\([^ ]*\).*/\1/p")
 
 SEQ  ?=
 VER   = $(shell test -z ${SEQ} && echo "${VSN}" || echo "${VSN}-${SEQ}")
