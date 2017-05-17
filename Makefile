@@ -32,6 +32,9 @@ docker: src/datomic/Dockerfile src/datomic/scm-source.json
 	docker build --build-arg="PACKAGE_URL=$$U" -t ${URL} -f $< src/datomic/
 	docker tag ${URL} datomic:latest
 
+publish:
+	docker push ${URL}
+
 src/datomic/scm-source.json: force
 	@sh -c '\
 		REV=$$(git rev-parse HEAD); \
