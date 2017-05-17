@@ -47,6 +47,11 @@ Install directions with AWS-related details are [here](doc/install.md).
 
 You can run Datomic appliance locally once your AWS account is [configured](doc/install.md). Please ensure that your have a valid AWS credentials / tokens before running the appliance.
 
+The first run of the appliance requires a license, run the following command to obtain license. 
+```
+make license
+``` 
+
 The following commands builds a Docker container and spawns Datomic and DynamoDB mock services at your Docker environment.
 ```
 make docker

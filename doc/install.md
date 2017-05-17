@@ -39,7 +39,7 @@ make upload USER=your@e.mail PASS=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
 
 
-## Deploy Datomic
+## Deploy Datomic to AWS
 
 ### Provision resources
 

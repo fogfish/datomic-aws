@@ -18,6 +18,9 @@ upload: license.txt
 resources: src/aws/resources.yaml
 	@sh src/scripts/resources.sh -f $^ -c ${SYSENV}
 
+license: 
+	@sh src/scripts/config.sh
+
 docker: src/datomic/Dockerfile
 	@U=`sh src/scripts/s3url.sh` ;\
 	docker build --build-arg="PACKAGE_URL=$$U" -t datomic:${VSN} -f $^ src/datomic/
@@ -25,4 +28,4 @@ docker: src/datomic/Dockerfile
 run: src/local.yaml
 	docker-compose -f $^ up
 
-.PHONY: setup upload resources
+.PHONY: setup upload resources license docker run
