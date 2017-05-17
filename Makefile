@@ -46,6 +46,9 @@ src/datomic/scm-source.json: force
 run: src/local.yaml
 	docker-compose -f $^ up
 
+debug:
+	@echo ${URL} 
+
 force:
 
 .PHONY: setup upload resources license docker run force
