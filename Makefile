@@ -7,6 +7,12 @@ SYSENV ?= etc/sysenv.yaml
 USER ?= none
 PASS ?= none
 VSN  ?= $(shell cat ${SYSENV} | sed -n "s/Version:[ ]*\(.*\)/\1/p")
+HUB  ?= $(shell cat ${SYSENV} | sed -n "s/Hub:[ ]*\(.*\)/\1/p")
+TEAM ?= $(shell cat ${SYSENV} | sed -n "s/Team:[ ]*\(.*\)/\1/p")
+
+SEQ  ?=
+VER   = $(shell test -z ${SEQ} && echo "${VSN}" || echo "${VSN}-${SEQ}")
+URL   = $(shell test -z ${HUB} && echo "${TEAM}/datomic:${VER}" || echo "${HUB}/${TEAM}/datomic:${VER}")
 
 setup: src/aws/setup.yaml
 	@sh src/scripts/setup.sh -f $^ -c ${SYSENV}
@@ -23,7 +29,7 @@ license:
 
 docker: src/datomic/Dockerfile
 	@U=`sh src/scripts/s3url.sh -c ${SYSENV}` ;\
-	docker build --build-arg="PACKAGE_URL=$$U" -t datomic:${VSN} -f $^ src/datomic/
+	docker build --build-arg="PACKAGE_URL=$$U" -t ${URL} -f $^ src/datomic/
 
 run: src/local.yaml
 	docker-compose -f $^ up

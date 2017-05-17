@@ -23,9 +23,12 @@ echo "==> running at ${HOST}"
 echo "==> configure service"
 if [[ ! -f ${CONFIG} ]] ;
 then
-   echo "==> no config"
+   FILE=datomic.license
+   aws s3 cp ${S3CONFIG} ${CONFIG}
+   aws s3 cp ${S3LICENSE} - | base64 --decode > ${FILE}
+   LICENSE=$(aws kms decrypt --ciphertext-blob fileb://${FILE} --query Plaintext --output text --region ${REGION} | base64 --decode)
+   sed -i -e "s|^license-key=.*$|license-key=$LICENSE|" ${CONFIG}
 fi
-
 
 ##
 echo "==> spawn transactor"
