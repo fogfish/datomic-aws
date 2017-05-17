@@ -4,8 +4,8 @@ SYSENV ?= etc/sysenv.yaml
 
 ## 
 ## datomic account
-USER ?=
-PASS ?=
+USER ?= none
+PASS ?= none
 VSN  ?= $(shell cat ${SYSENV} | sed -n "s/Version:[ ]*\(.*\)/\1/p")
 
 setup: src/aws/setup.yaml

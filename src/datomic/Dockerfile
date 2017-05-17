@@ -1,11 +1,10 @@
 FROM centos
 
-ARG PACKAGE_URL=
-
 ##
-## Install basic utilities and python
+## Install basic utilities, java and python
 RUN set -e \
    && yum -y -q update \
+   && yum -y -q install java \
    && yum -y -q install zip unzip iproute \
    && yum -y -q install python python-setuptools \
    && easy_install -U pip \
@@ -14,6 +13,8 @@ RUN set -e \
 
 ##
 ## Install datomic from S3
+ARG PACKAGE_URL=
+
 RUN set -e \
    && curl -o /tmp/datomic-latest.zip "${PACKAGE_URL}" \
    && mkdir -p /etc/datomic \

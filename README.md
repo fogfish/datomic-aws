@@ -45,11 +45,20 @@ Install directions with AWS-related details are [here](doc/install.md).
 
 ### Running appliance
 
-TBD
+You can run Datomic appliance locally once your AWS account is [configured](doc/install.md). Please ensure that your have a valid AWS credentials / tokens before running the appliance.
+
+The following commands builds a Docker container and spawns Datomic and DynamoDB mock services at your Docker environment.
+```
+make docker
+make run
+```
+Datomic is available for your peers at  `datomic:ddb-local://127.0.0.1:8000/datomic/yourdb`
 
 ## Next Steps
 
-TBD
+* Learn the installation guidelines to AWS 
+* Continue with Datomic peer development
+
 
 ## Contributing/Bugs
 

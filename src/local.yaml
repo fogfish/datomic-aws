@@ -8,4 +8,6 @@ services:
   datomic:
     image: datomic:0.9.5561
     ports:
-     - "4334:4334"
+      - "4334:4334"
+    volumes_from:
+      - container:datomic-config
