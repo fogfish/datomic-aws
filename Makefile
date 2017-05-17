@@ -29,8 +29,9 @@ license:
 
 docker: src/datomic/Dockerfile src/datomic/scm-source.json
 	@U=`sh src/scripts/s3url.sh -c ${SYSENV}` ;\
-	docker build --build-arg="PACKAGE_URL=$$U" -t ${URL} -f $< src/datomic/
-	docker tag ${URL} datomic:latest
+	docker build --build-arg="PACKAGE_URL=$$U" -t ${URL} -f $< src/datomic/ ;\
+	docker tag ${URL} datomic:latest ;\
+	@echo ${URL} > docker.url
 
 publish:
 	docker push ${URL}
@@ -45,10 +46,7 @@ src/datomic/scm-source.json: force
 	
 run: src/local.yaml
 	docker-compose -f $^ up
-
-debug:
-	@echo ${URL} 
-
+	
 force:
 
-.PHONY: setup upload resources license docker run force
+.PHONY: setup upload resources license docker run url force
