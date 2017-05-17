@@ -17,6 +17,7 @@ do
    esac
 done
 
+REGION=$(cat ${CONF} | sed -n "s/AWSRegion:[ ]*\(.*\)/\1/p")
 ENV=$(cat ${CONF} | sed -n "s/Env:[ ]*\(.*\)/\1/p")
 SOLUTION=$(cat ${CONF} | sed -n "s/Solution:[ ]*\(.*\)/\1/p")
 STACK="${ENV}-datomic-resources-${SOLUTION}"
@@ -28,7 +29,9 @@ aws cloudformation create-stack \
    --stack-name ${STACK} \
    --template-body file://${FILE} \
    --capabilities CAPABILITY_NAMED_IAM \
-   --parameters ${CONFIG}
+   --parameters ${CONFIG} \
+   --region ${REGION}
 
 aws cloudformation wait stack-create-complete \
-   --stack-name ${STACK}
+   --stack-name ${STACK} \
+   --region ${REGION}

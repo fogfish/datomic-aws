@@ -18,14 +18,18 @@ do
    esac
 done
 
+REGION=$(cat ${CONF} | sed -n "s/AWSRegion:[ ]*\(.*\)/\1/p")
+
 echo "==> cloud formation deployment of ${FILE}"
 CONFIG=$(sh ${ROOT}/sysenv.sh -f ${FILE} -c ${CONF})
 
 aws cloudformation create-stack \
    --stack-name ${STACK} \
    --template-body file://${FILE} \
-   --parameters ${CONFIG}
+   --parameters ${CONFIG} \
+   --region ${REGION}
    
 
 aws cloudformation wait stack-create-complete \
-   --stack-name ${STACK}
+   --stack-name ${STACK} \
+   --region ${REGION}

@@ -6,7 +6,7 @@ set -u
 
 STACK=datomic-artifacts
 
-while getopts "u:p:v:" opt ;
+while getopts "u:p:v:c:" opt ;
 do
    case $opt in
       u)
@@ -18,9 +18,13 @@ do
       v)
          VSN=$OPTARG
          ;;
+      c)
+         CONF=$OPTARG
+         ;;
    esac
 done
 
+REGION=$(cat ${CONF} | sed -n "s/AWSRegion:[ ]*\(.*\)/\1/p")
 PACKAGE=datomic-pro-${VSN}.zip
 
 if [[ ! -f ${PACKAGE} ]] ;
@@ -35,12 +39,13 @@ echo "==> lookup for s3"
 S3=$(aws cloudformation describe-stack-resources \
    --stack-name ${STACK} \
    --logical-resource-id ArtifactsS3 \
+   --region ${REGION} \
   | jq -r '.StackResources[0].PhysicalResourceId')
 
 echo "==> uploading ${PACKAGE} to s3://${S3}"
-aws s3 cp ${PACKAGE} s3://${S3}/datomic-pro/${PACKAGE}
-aws s3 cp ${PACKAGE} s3://${S3}/datomic-pro/datomic-pro-latest.zip
+aws s3 cp ${PACKAGE} s3://${S3}/datomic-pro/${PACKAGE} --region ${REGION}
+aws s3 cp ${PACKAGE} s3://${S3}/datomic-pro/datomic-pro-latest.zip --region ${REGION}
 
 echo "==> uploading config to s3://${S3}"
-aws s3 cp etc/*.properties s3://${S3}/etc/
+aws s3 cp etc/*.properties s3://${S3}/etc/ --region ${REGION}
 

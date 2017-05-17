@@ -12,17 +12,17 @@ setup: src/aws/setup.yaml
 	@sh src/scripts/setup.sh -f $^ -c ${SYSENV}
 
 upload: license.txt
-	@sh src/scripts/upload-artifacts.sh -u ${USER} -p ${PASS} -v ${VSN}
-	@sh src/scripts/upload-license.sh -f $^
+	@sh src/scripts/upload-artifacts.sh -u ${USER} -p ${PASS} -v ${VSN} -c ${SYSENV}
+	@sh src/scripts/upload-license.sh -f $^ -c ${SYSENV}
 
 resources: src/aws/resources.yaml
 	@sh src/scripts/resources.sh -f $^ -c ${SYSENV}
 
 license: 
-	@sh src/scripts/config.sh
+	@sh src/scripts/config.sh -c ${SYSENV}
 
 docker: src/datomic/Dockerfile
-	@U=`sh src/scripts/s3url.sh` ;\
+	@U=`sh src/scripts/s3url.sh -c ${SYSENV}` ;\
 	docker build --build-arg="PACKAGE_URL=$$U" -t datomic:${VSN} -f $^ src/datomic/
 
 run: src/local.yaml

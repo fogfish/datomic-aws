@@ -35,6 +35,7 @@ The diagram below highlights the design of the appliance and its collaboration w
 * `16` bootstrap Datomic transactor process with the configuration and licensee files
 
 
+
 ## Getting started 
 
 The project supplies Cloud Formation templates and scripts to orchestrate Datomic provisioning into your AWS account. 
@@ -59,10 +60,13 @@ make run
 ```
 Datomic is available for your peers at  `datomic:ddb-local://127.0.0.1:8000/datomic/yourdb`
 
+
+
 ## Next Steps
 
 * Learn the installation guidelines to AWS 
 * Continue with Datomic peer development
+
 
 
 ## Contributing/Bugs
