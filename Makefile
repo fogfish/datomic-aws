@@ -30,8 +30,7 @@ license:
 docker: src/datomic/Dockerfile src/datomic/scm-source.json
 	@U=`sh src/scripts/s3url.sh -c ${SYSENV}` ;\
 	docker build --build-arg="PACKAGE_URL=$$U" -t ${URL} -f $< src/datomic/ ;\
-	docker tag ${URL} datomic:latest ;\
-	echo ${URL} > docker.url
+	docker tag ${URL} datomic:latest
 
 publish:
 	docker push ${URL}

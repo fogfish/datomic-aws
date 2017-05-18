@@ -39,6 +39,14 @@ make upload USER=your@e.mail PASS=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
 
 
+## Configure Jenkins build job
+
+You can use Jenkins to orchestrate assembly of Docker container and its provision to private repository.
+The appliance supplies a customizable Jenkins pipeline. You can use it as-is in your environments:
+1. Create a new Jenkins pipeline job
+2. Copy-paste `Jenkins.build` as inline pipeline script    
+
+
 ## Deploy Datomic to AWS
 
 ### Provision resources

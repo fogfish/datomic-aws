@@ -1,0 +1,30 @@
+node {
+
+   def seq = currentBuild.number as String
+   checkout([$class: 'GitSCM', 
+      branches: [[name: '*/master']], 
+      doGenerateSubmoduleConfigurations: false, 
+      extensions: [[$class: 'CleanCheckout']], 
+      submoduleCfg: [], 
+      userRemoteConfigs: [[url: 'https://github.com/zalando-incubator/datomic-aws.git']]
+   ])
+
+   stage("config") {
+      //
+      // request necessary credentials 
+      //
+      // sh "sed -i -e 's|Team:.*|Team: myteam|g' etc/sysenv.yaml"
+      // sh "sed -i -e 's|Env:.*|Env: ci|g' etc/sysenv.yaml"
+      // sh "sed -i -e 's|Solution:.*|Solution: test|g' etc/sysenv.yaml"
+      // sh "sed -i -e 's|Hub:.*|Hub: private|g' etc/sysenv.yaml"
+      // sh "sed -i -e 's|AWSRegion:.*|AWSRegion: eu-central-1|g' etc/sysenv.yaml"
+   }
+
+   stage("assembly") {
+      sh "make docker SEQ=$seq"
+   }
+
+   stage("publish") {
+      sh "make publish SEQ=$seq"
+   }
+}
