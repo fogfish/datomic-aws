@@ -24,8 +24,11 @@ echo "==> configure service"
 if [[ ! -f ${CONFIG} ]] ;
 then
    FILE=datomic.license
-   aws s3 cp ${S3CONFIG} ${CONFIG}
-   aws s3 cp ${S3LICENSE} - | base64 --decode > ${FILE}
+   AZ=$(curl -s --connect-timeout 1 http://169.254.169.254/latest/meta-data/placement/availability-zone)
+   REGION=$(echo $AZ | sed 's/[a-z]$//')
+
+   aws s3 cp ${S3CONFIG} ${CONFIG} --region ${REGION}
+   aws s3 cp ${S3LICENSE} - --region ${REGION} | base64 --decode > ${FILE}
    LICENSE=$(aws kms decrypt --ciphertext-blob fileb://${FILE} --query Plaintext --output text --region ${REGION} | base64 --decode)
    sed -i -e "s|^license-key=.*$|license-key=$LICENSE|" ${CONFIG}
 fi
