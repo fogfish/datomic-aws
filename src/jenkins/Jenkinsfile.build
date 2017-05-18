@@ -15,7 +15,6 @@ node {
       //
       // sh "sed -i -e 's|Team:.*|Team: myteam|g' etc/sysenv.yaml"
       // sh "sed -i -e 's|Env:.*|Env: ci|g' etc/sysenv.yaml"
-      // sh "sed -i -e 's|Solution:.*|Solution: test|g' etc/sysenv.yaml"
       // sh "sed -i -e 's|Hub:.*|Hub: private|g' etc/sysenv.yaml"
       // sh "sed -i -e 's|AWSRegion:.*|AWSRegion: eu-central-1|g' etc/sysenv.yaml"
    }

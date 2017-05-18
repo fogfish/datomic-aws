@@ -3,4 +3,5 @@
 datomic.license
 license.*
 scm-source.json
+datomic-pro-*/
 

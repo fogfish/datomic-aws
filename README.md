@@ -60,7 +60,11 @@ make run
 ```
 Datomic is available for your peers at  `datomic:ddb-local://127.0.0.1:8000/datomic/yourdb`
 
-
+Use [groovy shell](http://docs.datomic.com/groovysh.html) to evaluate your appliance. 
+```
+make dev
+./datomic-pro-*/bin/groovysh
+```
 
 ## Next Steps
 

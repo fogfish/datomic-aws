@@ -45,7 +45,10 @@ src/datomic/scm-source.json: force
 	
 run: src/local.yaml
 	docker-compose -f $^ up
-	
+
+dev:
+	@sh src/scripts/get-artifacts.sh -c ${SYSENV}
+
 force:
 
-.PHONY: setup upload resources license docker run url force
+.PHONY: setup upload resources license docker run dev force
