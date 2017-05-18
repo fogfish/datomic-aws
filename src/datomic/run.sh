@@ -31,6 +31,7 @@ then
    aws s3 cp ${S3LICENSE} - --region ${REGION} | base64 --decode > ${FILE}
    LICENSE=$(aws kms decrypt --ciphertext-blob fileb://${FILE} --query Plaintext --output text --region ${REGION} | base64 --decode)
    sed -i -e "s|^license-key=.*$|license-key=$LICENSE|" ${CONFIG}
+   sed -i -e "s|host=.*|host=${HOST}|g" ${CONFIG}
 fi
 
 ##
