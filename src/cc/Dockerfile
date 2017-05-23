@@ -8,7 +8,7 @@ FROM centos
 RUN set -e \
    && yum -y -q update \
    && yum -y -q install zip unzip \
-   && yum -y -q install java maven \
+   && yum -y -q install java maven make \
    && curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo \
    && yum -y -q install sbt \
    && sbt about
