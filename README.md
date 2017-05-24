@@ -1,6 +1,6 @@
 # Datomic on AWS
 
-The project is the appliance to managed and deploy [Datomic](https://datomic.com) solutions in automated and immutable manner using state-of-the-art CI/CD solutions. 
+The project is the appliance to managed and deploy [Datomic](http://www.datomic.com) solutions in automated and immutable manner using state-of-the-art CI/CD solutions. 
 
 ## Key Features
 
