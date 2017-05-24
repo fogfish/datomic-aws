@@ -58,8 +58,12 @@ The following commands builds a Docker container and spawns Datomic and DynamoDB
 make docker
 make run
 ```
-Datomic is available for your peers at  `datomic:ddb-local://127.0.0.1:8000/datomic/yourdb`
+You need to tune `/etc/hosts` of you host environment
+```
+sudo echo -e "127.0.0.1\tdocker" | tee /etc/hosts
+```
 
+Datomic is available for your peers at  `datomic:ddb-local://127.0.0.1:8000/datomic/yourdb`
 Use [groovy shell](http://docs.datomic.com/groovysh.html) to evaluate your appliance. 
 ```
 make dev
