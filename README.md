@@ -60,7 +60,7 @@ make run
 ```
 You need to tune `/etc/hosts` of you host environment
 ```
-sudo echo -e "127.0.0.1\tdocker" | tee /etc/hosts
+sudo echo -e "127.0.0.1\tdocker" | tee -a /etc/hosts
 ```
 
 Datomic is available for your peers at  `datomic:ddb-local://127.0.0.1:8000/datomic/yourdb`

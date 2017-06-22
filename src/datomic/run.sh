@@ -36,4 +36,8 @@ fi
 
 ##
 echo "==> spawn transactor"
-/usr/local/datomic/bin/transactor ${CONFIG}
+
+MEM_HOST_KB=$(cat /proc/meminfo | sed -n 's/MemTotal:[ ]*\([0-9]*\).*/\1/p')
+MEM_JAVA_KB=$(($MEM_HOST_KB * 80 / 100))
+
+/usr/local/datomic/bin/transactor -Xmx${MEM_JAVA_KB}k -Xms${MEM_JAVA_KB}k ${CONFIG}

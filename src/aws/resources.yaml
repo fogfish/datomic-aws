@@ -106,10 +106,23 @@ Resources:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: kms:Decrypt
+                Action: 
+                  - kms:Decrypt
                 Resource: 
                   - !ImportValue "kms-datomic-license-encryption-key"
 
+        - PolicyName: AllowCloudWatch
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudwatch:PutMetricData
+                  - cloudwatch:PutMetricDataBatch
+                Resource: "*"
+                Condition:
+                  Bool:
+                    aws:SecureTransport: true
 
   PeerRole:
     Type: AWS::IAM::Role
