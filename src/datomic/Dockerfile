@@ -23,6 +23,12 @@ RUN set -e \
    && ln -s datomic-* datomic \
    && rm /tmp/datomic-latest.zip
 
+##
+## Install mysql drivers
+RUN set -e \
+   && curl -o /usr/local/datomic/lib/mariadb-java-client-2.0.2.jar https://downloads.mariadb.com/Connectors/java/connector-java-2.0.2/mariadb-java-client-2.0.2.jar
+
+
 EXPOSE 4334
 
 COPY scm-source.json /scm-source.json
